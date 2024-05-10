@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import Adress from "../../services/MyAdress";
 import { CanceledError } from "axios";
 
-interface Game {
+export interface Game {
     id: number;
     name: string;
+    background_image: string;
   }
   
   interface FetchGamesResponse {
@@ -28,7 +29,7 @@ const useGames = () => {
       //   .then((res) => setGames(res.data.result))
       //   .catch((err) => setError(err.message));
   
-      fetch(`${url}games${api_Key}`, {signal: conroller.signal})
+      fetch(`${url}games${api_Key}`/*, {signal: conroller.signal}*/)
         .then((res) => res.json())
         .then((data) => setGames(data.results))
         .catch((err) => {
