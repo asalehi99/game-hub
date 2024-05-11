@@ -26,9 +26,12 @@ const useGames = () => {
     
     const [games, setGames] = useState<Game[]>([]);
     const [error, setError] = useState("");
+    const [isLoading, setLoading ] = useState(false);
+
   
     useEffect(() => {
 
+      setLoading(true);
       const conroller = new AbortController();
       const api_Key = Adress.apiKey;
       const url = Adress.endpoint;
@@ -40,15 +43,20 @@ const useGames = () => {
   
       fetch(`${url}games${api_Key}`/*, {signal: conroller.signal}*/)
         .then((res) => res.json())
-        .then((data) => setGames(data.results))
+        .then((data) => {
+          setGames(data.results);
+          setLoading(false);
+        })
         .catch((err) => {
             if(err instanceof CanceledError) return;
-            setError(err.message)});
+            setError(err.message)
+            setLoading(false);
+          });
 
       return () => conroller.abort();
     }, []);
 
-    return {games, error};
+    return {games, error, isLoading };
 
 }
 
