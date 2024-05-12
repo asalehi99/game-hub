@@ -12,7 +12,7 @@ interface FetchResponse<T> {
 
 }
 
-const useData = <T>(endpoint: string, requestConfig?: AxiosRequestConfig) => {
+const useData = <T>(endpoint: string, requestConfig?: AxiosRequestConfig, deps?: any[]) => {
     const [data, setData] = useState<T[]>([]);
     const [error, setError] = useState("");
     const [isLoading, setLoading ] = useState(false);
@@ -26,7 +26,7 @@ const useData = <T>(endpoint: string, requestConfig?: AxiosRequestConfig) => {
       const url = Adress.endpoint;
   
       apiClient
-        .get<FetchResponse<T>>(endpoint, {signal: conroller.signal})
+        .get<FetchResponse<T>>(endpoint, {signal: conroller.signal, ...requestConfig})
         .then((res) => {setData(res.data.results)
           setLoading(false);
         })
@@ -49,7 +49,7 @@ const useData = <T>(endpoint: string, requestConfig?: AxiosRequestConfig) => {
       //     });
 
       return () => conroller.abort();
-    }, []);
+    }, deps?[...deps]:[]);
 
     return {data, error, isLoading };
 };
