@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useGames from "./useGames";
 import Adress from "../../services/MyAdress";
-import { CanceledError } from "axios";
+import { AxiosRequestConfig, CanceledError } from "axios";
 
  
 
@@ -11,7 +11,7 @@ interface FetchResponse<T> {
 
 }
 
-const useData = <T>(endpoint: string) => {
+const useData = <T>(endpoint: string, requestConfig?: AxiosRequestConfig) => {
     const [data, setData] = useState<T[]>([]);
     const [error, setError] = useState("");
     const [isLoading, setLoading ] = useState(false);
@@ -29,17 +29,17 @@ const useData = <T>(endpoint: string) => {
       //   .then((res) => setGames(res.data.result))
       //   .catch((err) => setError(err.message));
   
-      fetch(`${url}${endpoint}${api_Key}`/*, {signal: conroller.signal}*/)
-        .then((res) => res.json())
-        .then((data) => {
-          setData(data.results);
-          setLoading(false);
-        })
-        .catch((err) => {
-            if(err instanceof CanceledError) return;
-            setError(err.message)
-            setLoading(false);
-          });
+      // fetch(`${url}${endpoint}${api_Key}`/*, {signal: conroller.signal}*/)
+      //   .then((res) => res.json())
+      //   .then((data) => {
+      //     setData(data.results);
+      //     setLoading(false);
+      //   })
+      //   .catch((err) => {
+      //       if(err instanceof CanceledError) return;
+      //       setError(err.message)
+      //       setLoading(false);
+      //     });
 
       return () => conroller.abort();
     }, []);
