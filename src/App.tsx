@@ -4,6 +4,7 @@ import GameGrid from "./components/GameGrid";
 import GenreList from "./components/GenreList";
 import { useState } from "react";
 import { Genre } from "./components/hooks/useGenres";
+import GameGrid2 from "./components/GameGrid2";
 
 function App() {
   const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);

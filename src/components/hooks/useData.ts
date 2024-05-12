@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useGames from "./useGames";
 import Adress from "../../services/MyAdress";
 import { AxiosRequestConfig, CanceledError } from "axios";
+import apiClient from "../../services/api-client";
 
  
 
@@ -24,10 +25,16 @@ const useData = <T>(endpoint: string, requestConfig?: AxiosRequestConfig) => {
       const api_Key = Adress.apiKey;
       const url = Adress.endpoint;
   
-      // apiClient
-      //   .get<FetchGamesResponse>("/games")
-      //   .then((res) => setGames(res.data.result))
-      //   .catch((err) => setError(err.message));
+      apiClient
+        .get<FetchResponse<T>>(endpoint, {signal: conroller.signal})
+        .then((res) => {setData(res.data.results)
+          setLoading(false);
+        })
+        .catch((err) =>{ 
+          if (err instanceof CanceledError) return;
+          setError(err.message)
+          setLoading(false);
+        });
   
       // fetch(`${url}${endpoint}${api_Key}`/*, {signal: conroller.signal}*/)
       //   .then((res) => res.json())
