@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import Adress from "../../services/MyAdress";
-import { CanceledError } from "axios";
+
 import useData from "./useData";
 import { Genre } from "./useGenres";
 
